@@ -70,7 +70,6 @@
   100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
 }
 
-
     .side-gif {
   position: fixed;
   bottom: 30vh;
@@ -89,6 +88,40 @@
 .right-gif {
   right: 5vw;
 }
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .side-gif {
+    width: 14vw;
+    bottom: 1vh;
+    opacity: 0.7;
+  }
+
+  .left-gif {
+    left: 2vw;
+  }
+
+  .right-gif {
+    right: 2vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-gif {
+    width: 16vw;
+    bottom: 0.5vh;
+    opacity: 0.5;
+  }
+
+  .left-gif {
+    left: -5vw;
+  }
+
+  .right-gif {
+    right: -5vw;
+  }
+}
+
 
 
     #randomImage {
