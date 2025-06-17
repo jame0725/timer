@@ -1,1 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/jpg" href="images/logo.jpg" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #fff9f5;
+      overflow: hidden;
+      position: relative;
+    }
 
+    canvas#bobaCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas#confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+    }
+
+    h1 {
+      color: #5f3b28;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .lead {
+      color: #7a5040;
+      text-align: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .timer {
+      font-size: 2.5rem;
+      color: #422a1a;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .heart {
+      color: #ff8fa3;
+    }
+
+    .kiss {
+  position: absolute;
+  font-size: 5rem;
+  animation: floatKiss 2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes floatKiss {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+}
+
+
+    .side-gif {
+  position: fixed;
+  bottom: 30vh;
+  width: 50vw;
+  max-width: 400px;
+  min-width: 40px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.left-gif {
+  left: 8vw;
+}
+
+.right-gif {
+  right: 5vw;
+}
+
+
+    #randomImage {
+      display: block;
+      margin: 0 auto 20px;
+      width: 180px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(102, 51, 0, 0.3);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Animated background with Milk & Mocha images -->
+  <canvas id="bobaCanvas"></canvas>
+<!-- Side GIFs (responsive) -->
+<img src="images/milk-and-mocha.gif" 
+     alt="Left Milk" 
+     class="side-gif left-gif">
+
+<img src="images/milkandmocha.gif" 
+     alt="Right Mocha" 
+     class="side-gif right-gif">
+
+
+
+  <h1>James and Emily's Countdown!!! </h1>
+  <p class="lead">Counting down from June 25th to August 8th (Hopefully) </p>
+
+  <img id="randomImage" src="" alt="Cute Milk & Mocha">
+
+  <div class="timer" id="countdown"></div>
+  <div class="text-center">
+    <button id="kissBtn" class="btn btn-danger">Kiss From James</button>
+  </div>
+  
+
+  <script>
+    // Countdown setup
+    const countdownElement = document.getElementById("countdown");
+    const endTime = new Date("2025-08-06T00:00:00");
+    function updateCountdown() {
+      const diff = endTime - new Date();
+      if (diff <= 0) {
+        countdownElement.innerHTML = "<span class='heart'> 🎉 Our day is here! I LOVE YOU SO MUCH. Expect a call soon!!!! 💖</span>";
+        clearInterval(interval);
+        return;
+      }
+      const d = Math.floor(diff / 86400000),
+            h = Math.floor((diff % 86400000) / 3600000),
+            m = Math.floor((diff % 3600000) / 60000),
+            s = Math.floor((diff % 60000) / 1000);
+      countdownElement.textContent = `${d}d : ${h}h : ${m}m : ${s}s`;
+    }
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    // Random cute image
+    const images = [
+      "images/us.png",
+      "images/us1.JPG",
+      "images/us2.JPG",
+      "images/us3.png",
+      "images/us4.png",
+      "images/us5.JPG",
+      "images/us6.png",
+      "images/us7.JPG",
+      "images/us8.png",
+      "images/us9.JPG",
+      "images/us10.JPG",
+      "images/us11.JPG",
+      "images/us12.JPG",
+      "images/us13.JPG",
+      "images/us14.JPG"
+    ];
+    document.getElementById("randomImage").src = images[Math.floor(Math.random() * images.length)];
+  </script>
+
+  <!-- Milk & Mocha image background script -->
+  <script>
+    const canvas = document.getElementById("bobaCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.src = "images/heart.png";
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    const dots = Array.from({ length: 50 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.7,
+      vy: (Math.random() - 0.5) * 0.7
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < dots.length; i++) {
+        const a = dots[i];
+        a.x += a.vx;
+        a.y += a.vy;
+
+        if (a.x < 0 || a.x > canvas.width) a.vx *= -1;
+        if (a.y < 0 || a.y > canvas.height) a.vy *= -1;
+
+        if (img.complete) {
+          ctx.drawImage(img, a.x - 12, a.y - 12, 24, 24); // Larger and cleaner
+        }
+
+        for (let j = i + 1; j < dots.length; j++) {
+          const b = dots[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = "rgba(122, 80, 64, 0.08)";
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    img.onload = draw;
+  </script>
+
+   <!-- Confetti -->
+   <script>
+    const confettiCanvas = document.getElementById("confettiCanvas");
+    const cctx = confettiCanvas.getContext("2d");
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    });
+
+    const confettiColors = ["#ff8fa3", "#ffd5ec", "#dcb5a3", "#fff0e5", "#f7e7d3"];
+    let confettiParticles = [];
+
+    function startConfetti() {
+      confettiParticles = Array.from({ length: 150 }, () => ({
+        x: Math.random() * confettiCanvas.width,
+        y: Math.random() * -confettiCanvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 150 + 50,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        tilt: Math.random() * 10 - 5,
+        tiltAngle: 0,
+        tiltAngleIncrement: Math.random() * 0.05 + 0.01
+      }));
+      drawConfetti();
+    }
+
+    function drawConfetti() {
+      cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      for (let i = 0; i < confettiParticles.length; i++) {
+        let p = confettiParticles[i];
+        p.y += Math.cos(p.d) + 2;
+        p.x += Math.sin(0.5);
+        p.tiltAngle += p.tiltAngleIncrement;
+        p.tilt = Math.sin(p.tiltAngle) * 15;
+
+        cctx.beginPath();
+        cctx.lineWidth = p.r / 2;
+        cctx.strokeStyle = p.color;
+        cctx.moveTo(p.x + p.tilt, p.y);
+        cctx.lineTo(p.x, p.y + p.tilt + p.r);
+        cctx.stroke();
+      }
+      requestAnimationFrame(drawConfetti);
+    }
+  </script>
+
+<script>
+    document.getElementById("kissBtn").addEventListener("click", () => {
+      const kiss = document.createElement("div");
+      kiss.className = "kiss";
+      kiss.textContent = "💋";
+  
+      // Random position within the screen
+      kiss.style.left = `${Math.random() * 90 + 5}%`;
+      kiss.style.top = `${Math.random() * 70 + 20}px`;
+  
+      document.body.appendChild(kiss);
+  
+      // Remove after animation ends
+      setTimeout(() => kiss.remove(), 2000);
+    });
+  </script>
+  
+
+
+</body>
+</html>
